@@ -32,7 +32,7 @@ rwb init
 rwb serve
 ```
 
-You can change the port by setting the RWB_PORT environment variable: `RWB_PORT=3001 rwb serve`
+You can change the port by setting the WEBPACK_DEV_SERVER_PORT environment variable: `WEBPACK_DEV_SERVER_PORT=3001 rwb serve`
 
 ## Build a static site
 
