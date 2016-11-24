@@ -15,7 +15,7 @@ function renderStaticPage() {
         <head>
           <meta charSet="utf-8" />
           <title>MyComponent</title>
-          {RWB.ASSETS.css.map((a, idx) => <link key={idx} rel="stylesheet" href={a} />)}
+          {RWB.ASSETS.css.map((a, idx) => <link key={idx} rel="stylesheet" href={path.join('.', a)} />)}
         </head>
         <body>
           <RWB.DOM_NODE_ELEMENT
@@ -24,7 +24,7 @@ function renderStaticPage() {
               __html: ReactDOMServer.renderToString(<Root />),
             }}
           />
-        {RWB.ASSETS.js.map((a, idx) => <script key={idx} src={a} />)}
+        {RWB.ASSETS.js.map((a, idx) => <script key={idx} src={path.join('.', a)} />)}
         </body>
       </html>
     ),

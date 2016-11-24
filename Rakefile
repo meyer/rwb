@@ -42,12 +42,12 @@ task :reset_example do
 
         pkg['scripts'] = {
           :start => "rwb serve",
-          :static => "RWB_DISABLE_CACHEBUSTER=true NODE_ENV=production rwb static dist",
+          :static => "RWB_DISABLE_CACHEBUSTER=true NODE_ENV=development rwb static ../docs",
         }
 
         # Write modified package.json file
         f.rewind
-        f.write JSON.pretty_generate(pkg)
+        f.puts JSON.pretty_generate(pkg)
         f.flush
         f.truncate(f.pos)
       end

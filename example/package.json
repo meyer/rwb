@@ -11,6 +11,6 @@
   },
   "scripts": {
     "start": "rwb serve",
-    "static": "RWB_DISABLE_CACHEBUSTER=true NODE_ENV=production rwb static dist"
+    "static": "RWB_DISABLE_CACHEBUSTER=true NODE_ENV=development rwb static ../docs"
   }
 }
