@@ -1,28 +1,16 @@
 {
   "name": "example",
   "version": "1.0.0",
-  "description": "rwb demotron",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "rwb serve"
-  },
-  "keywords": [
-    "react"
-  ],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "react": "^15.1.0",
-    "react-dom": "^15.1.0"
-  },
-  "devDependencies": {
-    "rwb": "0.0.16"
-  },
+  "license": "MIT",
+  "description": "rwb demotron",
   "rwb": {
     "dom_node": "#.rwb-demotron",
     "main": "./MyComponent.js",
     "static_generator": "./render-static-page.js"
   },
-  "private": true
+  "scripts": {
+    "start": "rwb serve",
+    "static": "RWB_DISABLE_CACHEBUSTER=true NODE_ENV=production rwb static dist"
+  }
 }

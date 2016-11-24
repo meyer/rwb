@@ -1,29 +1,27 @@
 require 'json'
-require 'fileutils'
 require 'webrick'
 require 'benchmark'
 require 'shellwords'
 
 PWD = File.dirname(__FILE__)
-RWB = File.expand_path('./lib/main.js', PWD).shellescape
 EXAMPLE_DIR = File.expand_path('./example', PWD)
+TEMPLATE_DIR = File.expand_path('./template', PWD)
 SERVER_PORT = 8000
 
 desc "Reset rwb example directory (#{EXAMPLE_DIR})"
 task :reset_example do
   Benchmark.bm(30) do |x|
     Dir.chdir(PWD)
-    `npm link`
+    `yarn link`
 
     x.report('Resetting example files...') {
-      FileUtils.rm_rf EXAMPLE_DIR
-      FileUtils.mkdir_p EXAMPLE_DIR
+      rm_rf EXAMPLE_DIR
+      cp_r('lib/template', EXAMPLE_DIR)
       Dir.chdir EXAMPLE_DIR
     }
 
     # Create default package.json file
-    x.report('Initialising npm...') {system 'npm init -y'}
-    x.report('Initialising rwb...') {system "#{RWB} init"}
+    x.report('Initialising modules...') {system 'yarn init -y'}
 
     # Modify package.json
     x.report('Updating package.json...') {
@@ -35,8 +33,17 @@ task :reset_example do
         end
 
         pkg['description'] = 'rwb demotron'
-        # Silence 'no repository' warning
-        pkg['private'] = true
+
+        pkg['rwb'] = {
+          :dom_node => "#.rwb-demotron",
+          :main => "./MyComponent.js",
+          :static_generator => "./render-static-page.js",
+        }
+
+        pkg['scripts'] = {
+          :start => "rwb serve",
+          :static => "RWB_DISABLE_CACHEBUSTER=true NODE_ENV=production rwb static dist",
+        }
 
         # Write modified package.json file
         f.rewind
@@ -46,14 +53,14 @@ task :reset_example do
       end
     }
 
-    x.report('Installing packages from NPM...') {system "npm link rwb; npm i"}
-    x.report('Generating static site...') {system "#{RWB} static"}
+    x.report('Installing packages from NPM...') {system "yarn link rwb; yarn"}
+    x.report('Generating static site...') {system "npm run static"}
   end
 end
 
 task :serve do
   Dir.chdir EXAMPLE_DIR
-  system "#{RWB} serve"
+  system "npm start"
 end
 
 task :serve_static do
